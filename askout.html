@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .heart-button {
+            font-size: 72px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+        }
+
+        .heart-button img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .message {
+            font-size: 24px;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .visible { opacity: 1; }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f0f0;
+            top: -10px;
+            will-change: transform;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .response-button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .yes-button {
+            background-color: #4CAF50;
+        }
+
+        .yes-button:hover {
+            background-color: #45a049;
+        }
+
+        .no-button {
+            background-color: #f44336;
+        }
+
+        .no-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .gif-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .response-gif {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .no-response {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .no-message {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .reconsider-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reconsider-button:hover {
+            background-color: #1976D2;
+        }
+
+        .yes-note {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="heart-button" id="heartButton">😺</button>
+        <p class="message" id="message">LET'S DO LAAG THIS WEEKEND??🥺</p>
+        <div class="button-container" id="buttonContainer">
+            <button class="response-button yes-button">Yes</button>
+            <button class="response-button no-button">No</button>
+        </div>
+        <div class="gif-container" id="yesGifContainer">
+            <img src="https://media.giphy.com/media/3o7TKDkDbIDJieKbVm/giphy.gif" alt="Celebration GIF" class="response-gif">
+        </div>
+        <div class="yes-note" id="yesNote" style="display: none;">AIGHTT!! SAVE THE DATE😘💋</div>
+        <div class="no-response" id="noResponse">
+            <img src="https://media.giphy.com/media/JER2en0ZRiGUE/giphy.gif" alt="Moody Cat GIF" class="response-gif">
+            <p class="no-message">You sure about that??</p>
+            <button class="reconsider-button" id="reconsiderButton">STORYA TAG BALIK BI😒</button>
+        </div>
+    </div>
+
+    <script>
+        const heartButton = document.getElementById('heartButton');
+        const message = document.getElementById('message');
+        const buttonContainer = document.getElementById('buttonContainer');
+        const yesGifContainer = document.getElementById('yesGifContainer');
+        const yesNote = document.getElementById('yesNote');
+        const noResponse = document.getElementById('noResponse');
+        const reconsiderButton = document.getElementById('reconsiderButton');
+        const yesButton = document.querySelector('.yes-button');
+        const noButton = document.querySelector('.no-button');
+
+        heartButton.addEventListener('click', () => {
+            message.classList.add('visible');
+            buttonContainer.style.display = 'block';
+            createConfetti();
+        });
+
+        yesButton.addEventListener('click', () => {
+            heartButton.innerHTML = '🙀';
+            yesGifContainer.style.display = 'block';
+            yesNote.style.display = 'block';
+            buttonContainer.style.display = 'none';
+            noResponse.style.display = 'none';
+            createConfetti();
+        });
+
+        noButton.addEventListener('click', () => {
+            noResponse.style.display = 'block';
+            buttonContainer.style.display = 'none';
+            yesGifContainer.style.display = 'none';
+        });
+
+        reconsiderButton.addEventListener('click', () => {
+            noResponse.style.display = 'none';
+            buttonContainer.style.display = 'block';
+        });
+
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            const confettiCount = 200;
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                document.body.appendChild(confetti);
+
+                animateConfetti(confetti);
+            }
+        }
+
+        function animateConfetti(confetti) {
+            const animation = confetti.animate(
+                [
+                    { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+                    { transform: `translate3d(${Math.random() * 100 - 50}px, 100vh, 0)`, opacity: 0 }
+                ],
+                {
+                    duration: Math.random() * 3000 + 3000,
+                    easing: 'cubic-bezier(0, .9, .57, 1)',
+                    delay: Math.random() * 2000
+                }
+            );
+
+            animation.onfinish = () => confetti.remove();
+        }
+    </script>
+</body>
+</html>
+
